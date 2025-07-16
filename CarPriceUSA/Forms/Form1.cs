@@ -20,11 +20,8 @@ namespace CarPriceUSA
         {
             InitializeComponent();
             _auctionFeeTable = FeeTableProvider.GetFeeTable();
-            //_currencyRates = new() { { "USD", 1 }, { "UAH", 41 }, { "EUR", 0.9m } };
-            //_currentCurrency = "USD";
-            
             _fixedCosts = LoadFixedCosts();
-            string geoApiKey = "d8a92b2c7e66433b8a88cb636180e783"; // або з конфіга
+            string geoApiKey = "d8a92b2c7e66433b8a88cb636180e783";
             _portService = new NearestPortService(geoApiKey);
             _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
 
@@ -41,7 +38,6 @@ namespace CarPriceUSA
             {
                 return new FixedCostsConfig
                 {
-                    //TransportUSA = 550,
                     TransportKlaipeda = 1300,
                     TransportTernopil = 950,
                     Broker = 200,
@@ -79,7 +75,6 @@ namespace CarPriceUSA
                 return;
             }
             var cityInput = textBoxCity.Text.Trim();
-            // Асинхронний виклик
             var (auctionFee, toll, excise, vat, clearance, total, transportUsa) = await _calculator.CalculateTotalAsync(
     price, volume, year, checkBoxIsRepair.Checked, isDiesel, cityInput);
 
@@ -109,12 +104,10 @@ namespace CarPriceUSA
             using var settingsForm = new FormSettings(configCopy);
             if (settingsForm.ShowDialog() == DialogResult.OK)
             {
-                // Збереження у файл
                 File.WriteAllText("config.json",
                     JsonSerializer.Serialize(configCopy, new JsonSerializerOptions { WriteIndented = true }));
 
-                // ? Оновити основні об'єкти
-                //_fixedCosts.TransportUSA = configCopy.TransportUSA;
+
                 _fixedCosts.TransportKlaipeda = configCopy.TransportKlaipeda;
                 _fixedCosts.TransportTernopil = configCopy.TransportTernopil;
                 _fixedCosts.Broker = configCopy.Broker;
@@ -122,7 +115,6 @@ namespace CarPriceUSA
                 _fixedCosts.AdditionalCosts = configCopy.AdditionalCosts;
                 _fixedCosts.RepairCost = configCopy.RepairCost;
 
-                // ?? оновити CalculatorService
                 _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
 
             }
@@ -144,7 +136,7 @@ namespace CarPriceUSA
             Комісія: {labelCommission.Text}
             Додаткові витрати: {labelAdditionalCosts.Text}
             Очистка: {labelFinalClearance.Text}
-            Ремонт: {(checkBoxIsRepair.Checked ? "Так" : "Ні")}
+            Ремонт: {(checkBoxIsRepair.Checked ? _fixedCosts.RepairCost : "Ні")}
             Загальна вартість: {labelFinalCost.Text}
             Дата: {DateTime.Now}";
 

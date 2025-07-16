@@ -2,7 +2,6 @@
 {
     public class FixedCostsConfig
     {
-        //public decimal TransportUSA { get; set; }
         public decimal TransportKlaipeda { get; set; }
         public decimal TransportTernopil { get; set; }
         public decimal Broker { get; set; }

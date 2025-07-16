@@ -8,7 +8,6 @@ namespace CarPriceUSA.Services
         private readonly FixedCostsConfig _costs;
         private readonly NearestPortService _portService;
 
-        //private readonly string apiKey = "";
         public CalculatorService(List<PriceRangeFee> fees, FixedCostsConfig costs, NearestPortService portService)
         {
             _fees = fees;
