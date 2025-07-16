@@ -63,8 +63,7 @@
             labelExcise = new Label();
             labelToll = new Label();
             labelVAT = new Label();
-            comboBoxSetCurrency = new ComboBox();
-            buttonSaveResult = new Button();
+            buttonSaveResultInTxt = new Button();
             buttonSettings = new Button();
             SuspendLayout();
             // 
@@ -74,7 +73,6 @@
             textCostAuto.Name = "textCostAuto";
             textCostAuto.Size = new Size(150, 23);
             textCostAuto.TabIndex = 0;
-            //textCostAuto.TextChanged += textCostAuto_TextChanged;
             // 
             // label1
             // 
@@ -103,7 +101,6 @@
             comboBoxYears.Size = new Size(150, 23);
             comboBoxYears.TabIndex = 2;
             comboBoxYears.Text = "Виберіть рік";
-            //comboBoxYears.SelectedIndexChanged += comboBoxYears_SelectedIndexChanged;
             // 
             // comboBoxVolume
             // 
@@ -114,7 +111,6 @@
             comboBoxVolume.Size = new Size(150, 23);
             comboBoxVolume.TabIndex = 2;
             comboBoxVolume.Text = "Виберіть обєм двигуна";
-            //comboBoxVolume.SelectedIndexChanged += comboBoxVolume_SelectedIndexChanged;
             // 
             // label3
             // 
@@ -244,7 +240,6 @@
             checkBoxIsRepair.TabIndex = 4;
             checkBoxIsRepair.Text = "Ремонт";
             checkBoxIsRepair.UseVisualStyleBackColor = true;
-            //checkBoxIsRepair.CheckedChanged += checkBoxIsRepair_CheckedChanged;
             // 
             // label16
             // 
@@ -400,25 +395,15 @@
             labelVAT.TabIndex = 8;
             labelVAT.Text = "0";
             // 
-            // comboBoxSetCurrency
+            // buttonSaveResultInTxt
             // 
-            comboBoxSetCurrency.FormattingEnabled = true;
-            comboBoxSetCurrency.Items.AddRange(new object[] { "USD", "UAH", "EUR" });
-            comboBoxSetCurrency.Location = new Point(705, 12);
-            comboBoxSetCurrency.Name = "comboBoxSetCurrency";
-            comboBoxSetCurrency.Size = new Size(45, 23);
-            comboBoxSetCurrency.TabIndex = 9;
-            comboBoxSetCurrency.Text = "USD";
-            // 
-            // buttonSaveResult
-            // 
-            buttonSaveResult.Location = new Point(465, 480);
-            buttonSaveResult.Name = "buttonSaveResult";
-            buttonSaveResult.Size = new Size(135, 37);
-            buttonSaveResult.TabIndex = 10;
-            buttonSaveResult.Text = "Зберегти Розрахунок";
-            buttonSaveResult.UseVisualStyleBackColor = true;
-            buttonSaveResult.Click += buttonSaveResult_Click;
+            buttonSaveResultInTxt.Location = new Point(465, 480);
+            buttonSaveResultInTxt.Name = "buttonSaveResultInTxt";
+            buttonSaveResultInTxt.Size = new Size(135, 37);
+            buttonSaveResultInTxt.TabIndex = 10;
+            buttonSaveResultInTxt.Text = "Зберегти Розрахунок";
+            buttonSaveResultInTxt.UseVisualStyleBackColor = true;
+            buttonSaveResultInTxt.Click += buttonSaveResultInTxt_Click;
             // 
             // buttonSettings
             // 
@@ -437,8 +422,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 536);
             Controls.Add(buttonSettings);
-            Controls.Add(buttonSaveResult);
-            Controls.Add(comboBoxSetCurrency);
+            Controls.Add(buttonSaveResultInTxt);
             Controls.Add(labelVAT);
             Controls.Add(labelToll);
             Controls.Add(labelExcise);
@@ -521,8 +505,7 @@
         private Label labelExcise;
         private Label labelToll;
         private Label labelVAT;
-        private ComboBox comboBoxSetCurrency;
-        private Button buttonSaveResult;
+        private Button buttonSaveResultInTxt;
         private Button buttonSettings;
     }
 }

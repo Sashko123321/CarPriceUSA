@@ -24,7 +24,7 @@ namespace CarPriceUSA
             textBoxAdditionalCosts.Text = _config.AdditionalCosts.ToString();
             textBoxRepairCost.Text = _config.RepairCost.ToString();
 
-            buttonSaveResult.Click += buttonSaveResult_Click;
+            //buttonSaveResult.Click += buttonSaveResult_Click;
         }
 
         private void buttonSaveResult_Click(object sender, EventArgs e)
@@ -42,7 +42,8 @@ namespace CarPriceUSA
                 string json = JsonSerializer.Serialize(_config, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText("config.json", json);
 
-                MessageBox.Show("Налаштування збережено!");
+                MessageBox.Show(this, "Налаштування збережено!", "Info");
+
                 DialogResult = DialogResult.OK;
                 Close();
             }

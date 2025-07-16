@@ -200,8 +200,12 @@
             Controls.Add(label7);
             Controls.Add(label2);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MdiChildrenMinimizedAnchorBottom = false;
+            MinimizeBox = false;
             Name = "FormSettings";
-            Text = "FormSettings";
+            Text = "Settings";
             ResumeLayout(false);
             PerformLayout();
         }
