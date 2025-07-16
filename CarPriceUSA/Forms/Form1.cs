@@ -11,17 +11,23 @@ namespace CarPriceUSA
         private readonly FixedCostsConfig _fixedCosts;
         private readonly Dictionary<string, decimal> _currencyRates;
         private readonly string _currentCurrency;
-        private CalculatorService _calculator; // без readonly
+        private readonly NearestPortService _portService;
+
+        private CalculatorService _calculator;
 
 
         public Form1()
         {
             InitializeComponent();
             _auctionFeeTable = FeeTableProvider.GetFeeTable();
-            _currencyRates = new() { { "USD", 1 }, { "UAH", 41 }, { "EUR", 0.9m } };
-            _currentCurrency = "USD";
+            //_currencyRates = new() { { "USD", 1 }, { "UAH", 41 }, { "EUR", 0.9m } };
+            //_currentCurrency = "USD";
+            
             _fixedCosts = LoadFixedCosts();
-            _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts);
+            string geoApiKey = "d8a92b2c7e66433b8a88cb636180e783"; // або з конфіга
+            _portService = new NearestPortService(geoApiKey);
+            _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
+
         }
 
         private FixedCostsConfig LoadFixedCosts()
@@ -35,9 +41,9 @@ namespace CarPriceUSA
             {
                 return new FixedCostsConfig
                 {
-                    TransportUSA = 550,
+                    //TransportUSA = 550,
                     TransportKlaipeda = 1300,
-                    TransportTernopil = 800,
+                    TransportTernopil = 950,
                     Broker = 200,
                     Commission = 450,
                     AdditionalCosts = 300,
@@ -46,7 +52,7 @@ namespace CarPriceUSA
             }
         }
 
-        private void buttonRun_Click(object sender, EventArgs e)
+        private async void buttonRun_Click(object sender, EventArgs e)
         {
             if (!decimal.TryParse(textCostAuto.Text, out var price) ||
                 !decimal.TryParse(comboBoxVolume.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var volume) ||
@@ -58,8 +64,25 @@ namespace CarPriceUSA
 
             if (comboBoxYears.Text.Contains("старіші")) year = 2008;
 
-            var (auctionFee, toll, excise, vat, clearance, total) = _calculator.CalculateTotal(
-                price, volume, year, checkBoxIsRepair.Checked);
+            bool isDiesel;
+            if (radioButtonDiesel.Checked)
+            {
+                isDiesel = true;
+            }
+            else if (radioButtonGas.Checked)
+            {
+                isDiesel = false;
+            }
+            else
+            {
+                MessageBox.Show("Оберіть тип пального.");
+                return;
+            }
+            var cityInput = textBoxCity.Text.Trim();
+            // Асинхронний виклик
+            var (auctionFee, toll, excise, vat, clearance, total, transportUsa) = await _calculator.CalculateTotalAsync(
+    price, volume, year, checkBoxIsRepair.Checked, isDiesel, cityInput);
+
 
             labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
             labelToll.Text = $"{toll:0} {_currentCurrency}";
@@ -68,13 +91,15 @@ namespace CarPriceUSA
             labelFinalClearance.Text = $"{clearance:0} {_currentCurrency}";
             labelFinalCost.Text = $"{total:0} {_currentCurrency}";
 
-            labelTransportingAcrossUSA.Text = $"{_fixedCosts.TransportUSA:0} {_currentCurrency}";
+            labelTransportingAcrossUSA.Text = $"{transportUsa:0} {_currentCurrency}";
             labelTransportingAcrossKlaiped.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
             labelTransportingAcrossTernopil.Text = $"{_fixedCosts.TransportTernopil:0} {_currentCurrency}";
             labelBroker.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
             labelCommission.Text = $"{_fixedCosts.Commission:0} {_currentCurrency}";
             labelAdditionalCosts.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
         }
+
+
 
         private void buttonSettings_Click(object sender, EventArgs e)
         {
@@ -89,7 +114,7 @@ namespace CarPriceUSA
                     JsonSerializer.Serialize(configCopy, new JsonSerializerOptions { WriteIndented = true }));
 
                 // ? Оновити основні об'єкти
-                _fixedCosts.TransportUSA = configCopy.TransportUSA;
+                //_fixedCosts.TransportUSA = configCopy.TransportUSA;
                 _fixedCosts.TransportKlaipeda = configCopy.TransportKlaipeda;
                 _fixedCosts.TransportTernopil = configCopy.TransportTernopil;
                 _fixedCosts.Broker = configCopy.Broker;
@@ -98,7 +123,7 @@ namespace CarPriceUSA
                 _fixedCosts.RepairCost = configCopy.RepairCost;
 
                 // ?? оновити CalculatorService
-                _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts);
+                _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
 
             }
         }

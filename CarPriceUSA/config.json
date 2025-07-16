@@ -1,7 +1,7 @@
 {
-    "TransportUSA": 550,
+    //"TransportUSA": 550,
     "TransportKlaipeda": 1300,
-    "TransportTernopil": 800,
+    "TransportTernopil": 950,
     "Broker": 200,
     "Commission": 450,
     "AdditionalCosts": 300,

@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
             label2 = new Label();
             label7 = new Label();
             label11 = new Label();
             label12 = new Label();
             label13 = new Label();
             label3 = new Label();
-            textBoxTransportUSA = new TextBox();
             textBoxTransportKlaipeda = new TextBox();
             textBoxTransportTernopil = new TextBox();
             textBoxBroker = new TextBox();
@@ -45,15 +43,6 @@
             label16 = new Label();
             buttonSaveResult = new Button();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(19, 23);
-            label1.Name = "label1";
-            label1.Size = new Size(147, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Танспортування по США:";
             // 
             // label2
             // 
@@ -108,13 +97,6 @@
             label3.Size = new Size(51, 15);
             label3.TabIndex = 8;
             label3.Text = "Ремонт:";
-            // 
-            // textBoxTransportUSA
-            // 
-            textBoxTransportUSA.Location = new Point(200, 20);
-            textBoxTransportUSA.Name = "textBoxTransportUSA";
-            textBoxTransportUSA.Size = new Size(111, 23);
-            textBoxTransportUSA.TabIndex = 9;
             // 
             // textBoxTransportKlaipeda
             // 
@@ -192,14 +174,12 @@
             Controls.Add(textBoxBroker);
             Controls.Add(textBoxTransportTernopil);
             Controls.Add(textBoxTransportKlaipeda);
-            Controls.Add(textBoxTransportUSA);
             Controls.Add(label3);
             Controls.Add(label13);
             Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(label7);
             Controls.Add(label2);
-            Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
@@ -211,15 +191,12 @@
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private Label label7;
         private Label label11;
         private Label label12;
         private Label label13;
         private Label label3;
-        private TextBox textBoxTransportUSA;
         private TextBox textBoxTransportKlaipeda;
         private TextBox textBoxTransportTernopil;
         private TextBox textBoxBroker;

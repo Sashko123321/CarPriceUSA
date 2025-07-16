@@ -16,7 +16,7 @@ namespace CarPriceUSA
             _config = config;
 
             // Заповнення текстбоксів
-            textBoxTransportUSA.Text = _config.TransportUSA.ToString();
+            //textBoxTransportUSA.Text = _config.TransportUSA.ToString();
             textBoxTransportKlaipeda.Text = _config.TransportKlaipeda.ToString();
             textBoxTransportTernopil.Text = _config.TransportTernopil.ToString();
             textBoxBroker.Text = _config.Broker.ToString();
@@ -31,7 +31,7 @@ namespace CarPriceUSA
         {
             try
             {
-                _config.TransportUSA = decimal.Parse(textBoxTransportUSA.Text);
+                //_config.TransportUSA = decimal.Parse(textBoxTransportUSA.Text);
                 _config.TransportKlaipeda = decimal.Parse(textBoxTransportKlaipeda.Text);
                 _config.TransportTernopil = decimal.Parse(textBoxTransportTernopil.Text);
                 _config.Broker = decimal.Parse(textBoxBroker.Text);

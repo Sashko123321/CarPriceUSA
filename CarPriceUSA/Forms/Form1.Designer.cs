@@ -65,6 +65,10 @@
             labelVAT = new Label();
             buttonSaveResultInTxt = new Button();
             buttonSettings = new Button();
+            radioButtonGas = new RadioButton();
+            radioButtonDiesel = new RadioButton();
+            textBoxCity = new TextBox();
+            label19 = new Label();
             SuspendLayout();
             // 
             // textCostAuto
@@ -124,7 +128,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(269, 64);
+            label4.Location = new Point(421, 65);
             label4.Name = "label4";
             label4.Size = new Size(147, 15);
             label4.TabIndex = 3;
@@ -133,7 +137,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(269, 98);
+            label5.Location = new Point(421, 99);
             label5.Name = "label5";
             label5.Size = new Size(171, 15);
             label5.TabIndex = 3;
@@ -142,7 +146,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(269, 35);
+            label6.Location = new Point(421, 36);
             label6.Name = "label6";
             label6.Size = new Size(93, 15);
             label6.TabIndex = 3;
@@ -151,7 +155,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(269, 134);
+            label7.Location = new Point(421, 135);
             label7.Name = "label7";
             label7.Size = new Size(243, 15);
             label7.TabIndex = 3;
@@ -160,7 +164,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(269, 185);
+            label8.Location = new Point(421, 186);
             label8.Name = "label8";
             label8.Size = new Size(40, 15);
             label8.TabIndex = 3;
@@ -169,7 +173,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(269, 214);
+            label9.Location = new Point(421, 215);
             label9.Name = "label9";
             label9.Size = new Size(43, 15);
             label9.TabIndex = 3;
@@ -178,7 +182,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(269, 243);
+            label10.Location = new Point(421, 244);
             label10.Name = "label10";
             label10.Size = new Size(34, 15);
             label10.TabIndex = 3;
@@ -187,7 +191,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(269, 292);
+            label11.Location = new Point(421, 293);
             label11.Name = "label11";
             label11.Size = new Size(50, 15);
             label11.TabIndex = 3;
@@ -196,7 +200,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(269, 320);
+            label12.Location = new Point(421, 321);
             label12.Name = "label12";
             label12.Size = new Size(101, 15);
             label12.TabIndex = 3;
@@ -205,7 +209,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(269, 351);
+            label13.Location = new Point(421, 352);
             label13.Name = "label13";
             label13.Size = new Size(110, 15);
             label13.TabIndex = 3;
@@ -215,7 +219,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI", 50F);
-            label14.Location = new Point(454, 169);
+            label14.Location = new Point(606, 170);
             label14.Name = "label14";
             label14.Size = new Size(58, 89);
             label14.TabIndex = 3;
@@ -234,7 +238,7 @@
             // checkBoxIsRepair
             // 
             checkBoxIsRepair.AutoSize = true;
-            checkBoxIsRepair.Location = new Point(12, 180);
+            checkBoxIsRepair.Location = new Point(202, 71);
             checkBoxIsRepair.Name = "checkBoxIsRepair";
             checkBoxIsRepair.Size = new Size(67, 19);
             checkBoxIsRepair.TabIndex = 4;
@@ -299,7 +303,7 @@
             // labelAuctionFee
             // 
             labelAuctionFee.AutoSize = true;
-            labelAuctionFee.Location = new Point(521, 35);
+            labelAuctionFee.Location = new Point(673, 36);
             labelAuctionFee.Name = "labelAuctionFee";
             labelAuctionFee.Size = new Size(13, 15);
             labelAuctionFee.TabIndex = 8;
@@ -308,7 +312,7 @@
             // labelTransportingAcrossUSA
             // 
             labelTransportingAcrossUSA.AutoSize = true;
-            labelTransportingAcrossUSA.Location = new Point(521, 64);
+            labelTransportingAcrossUSA.Location = new Point(673, 65);
             labelTransportingAcrossUSA.Name = "labelTransportingAcrossUSA";
             labelTransportingAcrossUSA.Size = new Size(13, 15);
             labelTransportingAcrossUSA.TabIndex = 8;
@@ -317,7 +321,7 @@
             // labelTransportingAcrossKlaiped
             // 
             labelTransportingAcrossKlaiped.AutoSize = true;
-            labelTransportingAcrossKlaiped.Location = new Point(521, 98);
+            labelTransportingAcrossKlaiped.Location = new Point(673, 99);
             labelTransportingAcrossKlaiped.Name = "labelTransportingAcrossKlaiped";
             labelTransportingAcrossKlaiped.Size = new Size(13, 15);
             labelTransportingAcrossKlaiped.TabIndex = 8;
@@ -326,7 +330,7 @@
             // labelTransportingAcrossTernopil
             // 
             labelTransportingAcrossTernopil.AutoSize = true;
-            labelTransportingAcrossTernopil.Location = new Point(521, 134);
+            labelTransportingAcrossTernopil.Location = new Point(673, 135);
             labelTransportingAcrossTernopil.Name = "labelTransportingAcrossTernopil";
             labelTransportingAcrossTernopil.Size = new Size(13, 15);
             labelTransportingAcrossTernopil.TabIndex = 8;
@@ -335,7 +339,7 @@
             // labelFinalClearance
             // 
             labelFinalClearance.AutoSize = true;
-            labelFinalClearance.Location = new Point(518, 214);
+            labelFinalClearance.Location = new Point(670, 215);
             labelFinalClearance.Name = "labelFinalClearance";
             labelFinalClearance.Size = new Size(13, 15);
             labelFinalClearance.TabIndex = 8;
@@ -344,7 +348,7 @@
             // labelBroker
             // 
             labelBroker.AutoSize = true;
-            labelBroker.Location = new Point(518, 292);
+            labelBroker.Location = new Point(670, 293);
             labelBroker.Name = "labelBroker";
             labelBroker.Size = new Size(13, 15);
             labelBroker.TabIndex = 8;
@@ -353,7 +357,7 @@
             // labelCommission
             // 
             labelCommission.AutoSize = true;
-            labelCommission.Location = new Point(518, 320);
+            labelCommission.Location = new Point(670, 321);
             labelCommission.Name = "labelCommission";
             labelCommission.Size = new Size(13, 15);
             labelCommission.TabIndex = 8;
@@ -362,7 +366,7 @@
             // labelAdditionalCosts
             // 
             labelAdditionalCosts.AutoSize = true;
-            labelAdditionalCosts.Location = new Point(518, 351);
+            labelAdditionalCosts.Location = new Point(670, 352);
             labelAdditionalCosts.Name = "labelAdditionalCosts";
             labelAdditionalCosts.Size = new Size(13, 15);
             labelAdditionalCosts.TabIndex = 8;
@@ -371,7 +375,7 @@
             // labelExcise
             // 
             labelExcise.AutoSize = true;
-            labelExcise.Location = new Point(318, 214);
+            labelExcise.Location = new Point(470, 215);
             labelExcise.Name = "labelExcise";
             labelExcise.Size = new Size(13, 15);
             labelExcise.TabIndex = 8;
@@ -380,7 +384,7 @@
             // labelToll
             // 
             labelToll.AutoSize = true;
-            labelToll.Location = new Point(318, 185);
+            labelToll.Location = new Point(470, 186);
             labelToll.Name = "labelToll";
             labelToll.Size = new Size(13, 15);
             labelToll.TabIndex = 8;
@@ -389,7 +393,7 @@
             // labelVAT
             // 
             labelVAT.AutoSize = true;
-            labelVAT.Location = new Point(318, 243);
+            labelVAT.Location = new Point(470, 244);
             labelVAT.Name = "labelVAT";
             labelVAT.Size = new Size(13, 15);
             labelVAT.TabIndex = 8;
@@ -416,11 +420,51 @@
             buttonSettings.UseVisualStyleBackColor = true;
             buttonSettings.Click += buttonSettings_Click;
             // 
+            // radioButtonGas
+            // 
+            radioButtonGas.AutoSize = true;
+            radioButtonGas.Location = new Point(15, 167);
+            radioButtonGas.Name = "radioButtonGas";
+            radioButtonGas.Size = new Size(64, 19);
+            radioButtonGas.TabIndex = 11;
+            radioButtonGas.TabStop = true;
+            radioButtonGas.Text = "Бензин";
+            radioButtonGas.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDiesel
+            // 
+            radioButtonDiesel.AutoSize = true;
+            radioButtonDiesel.Location = new Point(85, 167);
+            radioButtonDiesel.Name = "radioButtonDiesel";
+            radioButtonDiesel.Size = new Size(64, 19);
+            radioButtonDiesel.TabIndex = 11;
+            radioButtonDiesel.TabStop = true;
+            radioButtonDiesel.Text = "Дизель";
+            radioButtonDiesel.UseVisualStyleBackColor = true;
+            // 
+            // textBoxCity
+            // 
+            textBoxCity.Location = new Point(202, 36);
+            textBoxCity.Name = "textBoxCity";
+            textBoxCity.Size = new Size(150, 23);
+            textBoxCity.TabIndex = 0;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(202, 17);
+            label19.Name = "label19";
+            label19.Size = new Size(75, 15);
+            label19.TabIndex = 1;
+            label19.Text = "Місто і Штат";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 536);
+            Controls.Add(radioButtonDiesel);
+            Controls.Add(radioButtonGas);
             Controls.Add(buttonSettings);
             Controls.Add(buttonSaveResultInTxt);
             Controls.Add(labelVAT);
@@ -456,9 +500,11 @@
             Controls.Add(comboBoxYears);
             Controls.Add(label3);
             Controls.Add(label2);
+            Controls.Add(label19);
             Controls.Add(label1);
+            Controls.Add(textBoxCity);
             Controls.Add(textCostAuto);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
             MinimizeBox = false;
@@ -507,5 +553,9 @@
         private Label labelVAT;
         private Button buttonSaveResultInTxt;
         private Button buttonSettings;
+        private RadioButton radioButtonGas;
+        private RadioButton radioButtonDiesel;
+        private TextBox textBoxCity;
+        private Label label19;
     }
 }
