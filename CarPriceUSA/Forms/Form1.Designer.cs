@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             textCostAuto = new TextBox();
             label1 = new Label();
             label2 = new Label();
@@ -505,9 +506,9 @@
             Controls.Add(textBoxCity);
             Controls.Add(textCostAuto);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
-            MinimizeBox = false;
             Name = "Form1";
             Text = "CarPriceUSA";
             ResumeLayout(false);
