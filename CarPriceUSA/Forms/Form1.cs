@@ -75,8 +75,29 @@ namespace CarPriceUSA
                 return;
             }
             var cityInput = textBoxCity.Text.Trim();
-            var (auctionFee, toll, excise, vat, clearance, total, transportUsa) = await _calculator.CalculateTotalAsync(
-    price, volume, year, checkBoxIsRepair.Checked, isDiesel, cityInput);
+            string city;
+
+            if (string.IsNullOrEmpty(cityInput))
+            {
+                MessageBox.Show("Місто не введено. Використано місто за замовчуванням: CA - SAN BERNARDINO",
+                                "Увага", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                city = "CA - SAN BERNARDINO";
+            }
+            else
+            {
+                city = cityInput;
+            }
+
+            var (auctionFee, toll, excise, vat, clearance, total, transportUsa) =
+                await _calculator.CalculateTotalAsync(
+                    price,
+                    volume,
+                    year,
+                    checkBoxIsRepair.Checked,
+                    isDiesel,
+                    city
+                );
+
 
 
             labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
