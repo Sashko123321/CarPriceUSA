@@ -26,8 +26,13 @@ namespace CarPriceUSA.Services
     CalculateTotalAsync(decimal price, decimal engineVolume, int year, bool isRepair, bool isDiesel, string cityStateName)
         {
             var auctionFee = GetAuctionFee(price);
+            const decimal pricePerMile = 2.0m;
+            const decimal kmToMile = 0.621371m;
+
             var distance = await _portService.GetDistanceToNearestPortKmAsync(cityStateName);
-            var transportUsa = (decimal)distance * 0.6m * 2;
+            var distanceInMiles = (decimal)distance * kmToMile;
+            var transportUsa = distanceInMiles * pricePerMile;
+
 
             var baseForDuty = price + auctionFee + _costs.TransportKlaipeda + 300;
             var toll = baseForDuty * 0.10m;
