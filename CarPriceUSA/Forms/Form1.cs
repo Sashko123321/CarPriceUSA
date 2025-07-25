@@ -18,7 +18,7 @@ namespace CarPriceUSA
 
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();  
             _auctionFeeTable = FeeTableProvider.GetFeeTable();
             _fixedCosts = LoadFixedCosts();
             string geoApiKey = "d8a92b2c7e66433b8a88cb636180e783";
@@ -39,10 +39,9 @@ namespace CarPriceUSA
                 return new FixedCostsConfig
                 {
                     TransportKlaipeda = 1300,
-                    TransportTernopil = 950,
-                    Broker = 200,
-                    Commission = 450,
-                    AdditionalCosts = 300,
+                    TransportTernopil = 900,
+                    Broker = 450,
+                    AdditionalCosts = 700,
                     RepairCost = 1000
                 };
             }
@@ -111,7 +110,6 @@ namespace CarPriceUSA
             labelTransportingAcrossKlaiped.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
             labelTransportingAcrossTernopil.Text = $"{_fixedCosts.TransportTernopil:0} {_currentCurrency}";
             labelBroker.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
-            labelCommission.Text = $"{_fixedCosts.Commission:0} {_currentCurrency}";
             labelAdditionalCosts.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
         }
 
@@ -154,7 +152,6 @@ namespace CarPriceUSA
             Акциз: {labelExcise.Text}
             ПДВ: {labelVAT.Text}
             Брокер: {labelBroker.Text}
-            Комісія: {labelCommission.Text}
             Додаткові витрати: {labelAdditionalCosts.Text}
             Очистка: {labelFinalClearance.Text}
             Ремонт: {(checkBoxIsRepair.Checked ? _fixedCosts.RepairCost : "Ні")}

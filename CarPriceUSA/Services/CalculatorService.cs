@@ -34,7 +34,7 @@ namespace CarPriceUSA.Services
             var transportUsa = distanceInMiles * pricePerMile;
 
 
-            var baseForDuty = price + auctionFee + _costs.TransportKlaipeda + 300;
+            var baseForDuty = price + auctionFee + 1600;
             var toll = baseForDuty * 0.10m;
             var age = Math.Max(0, 2025 - year);
 
@@ -53,8 +53,7 @@ namespace CarPriceUSA.Services
             var repair = isRepair ? _costs.RepairCost : 0;
 
             var total = price + auctionFee + transportUsa + _costs.TransportKlaipeda +
-                        _costs.TransportTernopil + clearance + _costs.Broker +
-                        _costs.Commission + _costs.AdditionalCosts + repair;
+                        _costs.TransportTernopil + clearance + _costs.Broker + _costs.AdditionalCosts + repair;
 
             return (auctionFee, toll, excise, vat, clearance, total, transportUsa);
         }

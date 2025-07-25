@@ -1,8 +1,7 @@
 {
     "TransportKlaipeda": 1300,
-    "TransportTernopil": 950,
-    "Broker": 200,
-    "Commission": 450,
-    "AdditionalCosts": 300,
+    "TransportTernopil": 900,
+    "Broker": 450,
+    "AdditionalCosts": 700,
     "RepairCost": 1000
 }
