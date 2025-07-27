@@ -98,19 +98,25 @@ namespace CarPriceUSA
                 );
 
 
+            labelAuction—ommission.Text = $"{price + auctionFee + _fixedCosts.AdditionalCosts + _fixedCosts.RepairCost} {_currentCurrency}";
+            labelFinalBid.Text = $"{price:0} {_currentCurrency}";
+            labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
+            labelTariffs.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
+            labelPaymentForDocuments.Text = $"{_fixedCosts.RepairCost:0} {_currentCurrency}";
 
-            //labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
-            //labelToll.Text = $"{toll:0} {_currentCurrency}";
-            //labelExcise.Text = $"{excise:0} {_currentCurrency}";
-            //labelVAT.Text = $"{vat:0} {_currentCurrency}";
-            //labelFinalClearance.Text = $"{clearance:0} {_currentCurrency}";
-            //labelFinalCost.Text = $"{total:0} {_currentCurrency}";
+            labelDelivery.Text = $"{_fixedCosts.TransportKlaipeda + _fixedCosts.TransportTernopil + transportUsa} {_currentCurrency}";
+            labelDeliveryPort.Text = $"{transportUsa:0} {_currentCurrency}";
+            labelCityDelivery.Text = $"{_fixedCosts.TransportTernopil + _fixedCosts.TransportKlaipeda} {_currentCurrency}";
 
-            //labelTransportingAcrossUSA.Text = $"{transportUsa:0} {_currentCurrency}";
-            //labelTransportingAcrossKlaiped.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
-            //labelTransportingAcrossTernopil.Text = $"{_fixedCosts.TransportTernopil:0} {_currentCurrency}";
-            //labelBroker.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
-            //labelAdditionalCosts.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
+            labelCustoms.Text = $"{(toll + excise + vat) + _fixedCosts.TransportKlaipeda + _fixedCosts.Broker} {_currentCurrency}";
+
+            labelBrokerFee.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
+            labelCustomsClearance.Text = $"{(toll + excise + vat):0} {_currentCurrency}";
+            labelUnloadingPort.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
+
+            labelTotalPrices.Text = $"{total:0} {_currentCurrency}";
+
+
         }
 
 
