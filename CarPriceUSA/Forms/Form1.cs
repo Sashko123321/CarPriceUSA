@@ -99,18 +99,18 @@ namespace CarPriceUSA
 
 
 
-            labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
-            labelToll.Text = $"{toll:0} {_currentCurrency}";
-            labelExcise.Text = $"{excise:0} {_currentCurrency}";
-            labelVAT.Text = $"{vat:0} {_currentCurrency}";
-            labelFinalClearance.Text = $"{clearance:0} {_currentCurrency}";
-            labelFinalCost.Text = $"{total:0} {_currentCurrency}";
+            //labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
+            //labelToll.Text = $"{toll:0} {_currentCurrency}";
+            //labelExcise.Text = $"{excise:0} {_currentCurrency}";
+            //labelVAT.Text = $"{vat:0} {_currentCurrency}";
+            //labelFinalClearance.Text = $"{clearance:0} {_currentCurrency}";
+            //labelFinalCost.Text = $"{total:0} {_currentCurrency}";
 
-            labelTransportingAcrossUSA.Text = $"{transportUsa:0} {_currentCurrency}";
-            labelTransportingAcrossKlaiped.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
-            labelTransportingAcrossTernopil.Text = $"{_fixedCosts.TransportTernopil:0} {_currentCurrency}";
-            labelBroker.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
-            labelAdditionalCosts.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
+            //labelTransportingAcrossUSA.Text = $"{transportUsa:0} {_currentCurrency}";
+            //labelTransportingAcrossKlaiped.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
+            //labelTransportingAcrossTernopil.Text = $"{_fixedCosts.TransportTernopil:0} {_currentCurrency}";
+            //labelBroker.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
+            //labelAdditionalCosts.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
         }
 
 
@@ -142,26 +142,26 @@ namespace CarPriceUSA
 
         private void buttonSaveResultInTxt_Click(object sender, EventArgs e)
         {
-            var result = $@"
-            Ціна на аукціоні: {textCostAuto.Text} {_currentCurrency}
-            Комісія аукціону: {labelAuctionFee.Text}
-            Транспортування США: {labelTransportingAcrossUSA.Text}
-            Транспортування Клайпеда: {labelTransportingAcrossKlaiped.Text}
-            Транспортування Тернопіль: {labelTransportingAcrossTernopil.Text}
-            Мито: {labelToll.Text}
-            Акциз: {labelExcise.Text}
-            ПДВ: {labelVAT.Text}
-            Брокер: {labelBroker.Text}
-            Додаткові витрати: {labelAdditionalCosts.Text}
-            Очистка: {labelFinalClearance.Text}
-            Ремонт: {(checkBoxIsRepair.Checked ? _fixedCosts.RepairCost : "Ні")}
-            Загальна вартість: {labelFinalCost.Text}
-            Дата: {DateTime.Now}";
+            //var result = $@"
+            //Ціна на аукціоні: {textCostAuto.Text} {_currentCurrency}
+            //Комісія аукціону: {labelAuctionFee.Text}
+            //Транспортування США: {labelTransportingAcrossUSA.Text}
+            //Транспортування Клайпеда: {labelTransportingAcrossKlaiped.Text}
+            //Транспортування Тернопіль: {labelTransportingAcrossTernopil.Text}
+            //Мито: {labelToll.Text}
+            //Акциз: {labelExcise.Text}
+            //ПДВ: {labelVAT.Text}
+            //Брокер: {labelBroker.Text}
+            //Додаткові витрати: {labelAdditionalCosts.Text}
+            //Очистка: {labelFinalClearance.Text}
+            //Ремонт: {(checkBoxIsRepair.Checked ? _fixedCosts.RepairCost : "Ні")}
+            //Загальна вартість: {labelFinalCost.Text}
+            //Дата: {DateTime.Now}";
 
             using SaveFileDialog sfd = new() { Filter = "Text files (*.txt)|*.txt", FileName = "CarPriceCalculation.txt" };
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(sfd.FileName, result);
+                //File.WriteAllText(sfd.FileName, result);
                 MessageBox.Show("Результат збережено!");
             }
         }
