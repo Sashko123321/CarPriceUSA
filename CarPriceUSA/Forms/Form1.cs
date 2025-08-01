@@ -7,168 +7,103 @@ namespace CarPriceUSA
 {
     public partial class Form1 : Form
     {
-        private readonly List<PriceRangeFee> _auctionFeeTable;
-        private readonly FixedCostsConfig _fixedCosts;
-        private readonly Dictionary<string, decimal> _currencyRates;
-        private readonly string _currentCurrency;
-        private readonly NearestPortService _portService;
+        private FixedCostsConfig _config;
+        private DeliveryService _deliveryService;
+        private CustomService _customService;
 
-        private CalculatorService _calculator;
-
+        private string _geoApiKey = "d8a92b2c7e66433b8a88cb636180e783";
 
         public Form1()
         {
-            InitializeComponent();  
-            _auctionFeeTable = FeeTableProvider.GetFeeTable();
-            _fixedCosts = LoadFixedCosts();
-            string geoApiKey = "d8a92b2c7e66433b8a88cb636180e783";
-            _portService = new NearestPortService(geoApiKey);
-            _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
+            InitializeComponent();
+            LoadConfig();
+            InitializeServices();
+
+            buttonRun.Click += ButtonRun_Click;
 
         }
 
-        private FixedCostsConfig LoadFixedCosts()
+        private void LoadConfig()
         {
             try
             {
                 string json = File.ReadAllText("config.json");
-                return JsonSerializer.Deserialize<FixedCostsConfig>(json);
+                _config = JsonSerializer.Deserialize<FixedCostsConfig>(json)!;
             }
-            catch
+            catch (Exception ex)
             {
-                return new FixedCostsConfig
+                MessageBox.Show($"Error loading config: {ex.Message}");
+                _config = new FixedCostsConfig(); // default values if needed
+            }
+        }
+
+        private void InitializeServices()
+        {
+            _deliveryService = new DeliveryService(_config, _geoApiKey);
+            _customService = new CustomService(_config);
+        }
+
+        private async void ButtonRun_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Парсимо вхідні дані
+                if (!decimal.TryParse(textCostAuto.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal price))
                 {
-                    TransportKlaipeda = 1300,
-                    TransportTernopil = 900,
-                    Broker = 450,
-                    AdditionalCosts = 700,
-                    RepairCost = 1000
-                };
-            }
-        }
+                    MessageBox.Show("Invalid price");
+                    return;
+                }
 
-        private async void buttonRun_Click(object sender, EventArgs e)
-        {
-            if (!decimal.TryParse(textCostAuto.Text, out var price) ||
-                !decimal.TryParse(comboBoxVolume.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var volume) ||
-                (!int.TryParse(comboBoxYears.Text, out var year) && !comboBoxYears.Text.Contains("старіші")))
-            {
-                MessageBox.Show("Неправильно введені дані.");
-                return;
-            }
+                if (comboBoxYears.SelectedItem == null || !int.TryParse(comboBoxYears.SelectedItem.ToString(), out int year))
+                {
+                    MessageBox.Show("Select valid year");
+                    return;
+                }
 
-            if (comboBoxYears.Text.Contains("старіші")) year = 2008;
+                if (comboBoxVolume.SelectedItem == null || !decimal.TryParse(comboBoxVolume.SelectedItem.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal volume))
+                {
+                    MessageBox.Show("Select valid engine volume");
+                    return;
+                }
 
-            bool isDiesel;
-            if (radioButtonDiesel.Checked)
-            {
-                isDiesel = true;
-            }
-            else if (radioButtonGas.Checked)
-            {
-                isDiesel = false;
-            }
-            else
-            {
-                MessageBox.Show("Оберіть тип пального.");
-                return;
-            }
-            var cityInput = textBoxCity.Text.Trim();
-            string city;
+                bool isDiesel = radioButtonDiesel.Checked;
+                string city = textBoxCity.Text.Trim();
 
-            if (string.IsNullOrEmpty(cityInput))
-            {
-                MessageBox.Show("Місто не введено. Використано місто за замовчуванням: CA - SAN BERNARDINO",
-                                "Увага", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                city = "CA - SAN BERNARDINO";
-            }
-            else
-            {
-                city = cityInput;
-            }
+                // Розрахунок аукціону (припустимо fullRefund=false, fullRefundDamages=false, бо не вказано UI для них)
+                // Якщо потрібні чекбокси - додай аналогічно.
+                var auctionService = new AuctionPaymentService(_config);
+                var auctionResult = auctionService.CalculateFinalCost(price, false);
 
-            var (auctionFee, toll, excise, vat, clearance, total, transportUsa) =
-                await _calculator.CalculateTotalAsync(
-                    price,
-                    volume,
-                    year,
-                    checkBoxIsRepair.Checked,
-                    isDiesel,
-                    city
-                );
+                // Розрахунок доставки
+                var deliveryResult = await _deliveryService.Delivery(auctionResult.FinalPrice, fullRefund: false, fullRefundDamages: false, city);
 
+                // Розрахунок митних платежів
+                var customsResult = _customService.Customs(deliveryResult.finalCostAuctionPayment, year, volume, isDiesel);
 
-            labelAuctionСommission.Text = $"{price + auctionFee + _fixedCosts.AdditionalCosts + _fixedCosts.RepairCost} {_currentCurrency}";
-            labelFinalBid.Text = $"{price:0} {_currentCurrency}";
-            labelAuctionFee.Text = $"{auctionFee:0} {_currentCurrency}";
-            labelTariffs.Text = $"{_fixedCosts.AdditionalCosts:0} {_currentCurrency}";
-            labelPaymentForDocuments.Text = $"{_fixedCosts.RepairCost:0} {_currentCurrency}";
+                // Відображення результатів у Label
 
-            labelDelivery.Text = $"{_fixedCosts.TransportKlaipeda + _fixedCosts.TransportTernopil + transportUsa} {_currentCurrency}";
-            labelDeliveryPort.Text = $"{transportUsa:0} {_currentCurrency}";
-            labelCityDelivery.Text = $"{_fixedCosts.TransportTernopil + _fixedCosts.TransportKlaipeda} {_currentCurrency}";
+                labelFinalBid.Text = auctionResult.BidPrice.ToString("C", CultureInfo.CurrentCulture);
+                labelAuctionСommission.Text = auctionResult.TariffCopart.ToString("C", CultureInfo.CurrentCulture);
+                labelAuctionFee.Text = auctionResult.TariffAutoBidMaster.ToString("C", CultureInfo.CurrentCulture);
+                labelPaymentForDocuments.Text = auctionResult.DocumentCost.ToString("C", CultureInfo.CurrentCulture);
+                labelDelivery.Text = deliveryResult.finalCostAuctionPayment.ToString("C", CultureInfo.CurrentCulture);
+                labelDeliveryPort.Text = deliveryResult.deliveryToPortCost.ToString("C", CultureInfo.CurrentCulture);
+                labelCityDelivery.Text = deliveryResult.deliveryToCity.ToString("C", CultureInfo.CurrentCulture);
+                labelPaymentForDocuments.Text = deliveryResult.paymentToSeason.ToString("C", CultureInfo.CurrentCulture);
+                labelUnloadingPort.Text = deliveryResult.fullRefundCost.ToString("C", CultureInfo.CurrentCulture);
+                labelBrokerFee.Text = customsResult.tariffBroker.ToString("C", CultureInfo.CurrentCulture);
+                labelCustoms.Text = customsResult.customsCost.ToString("C", CultureInfo.CurrentCulture);
+                labelUnloadingPort.Text = customsResult.unloadingKlaipeda.ToString("C", CultureInfo.CurrentCulture);
+                labelCustomsClearance.Text = customsResult.finalCustomsCost.ToString("C", CultureInfo.CurrentCulture);
 
-            labelCustoms.Text = $"{(toll + excise + vat) + _fixedCosts.TransportKlaipeda + _fixedCosts.Broker} {_currentCurrency}";
-
-            labelBrokerFee.Text = $"{_fixedCosts.Broker:0} {_currentCurrency}";
-            labelCustomsClearance.Text = $"{(toll + excise + vat):0} {_currentCurrency}";
-            labelUnloadingPort.Text = $"{_fixedCosts.TransportKlaipeda:0} {_currentCurrency}";
-
-            labelTotalPrices.Text = $"{total:0} {_currentCurrency}";
-
-
-        }
-
-
-
-        private void buttonSettings_Click(object sender, EventArgs e)
-        {
-            var configCopy = JsonSerializer.Deserialize<FixedCostsConfig>(
-                JsonSerializer.Serialize(_fixedCosts));
-
-            using var settingsForm = new FormSettings(configCopy);
-            if (settingsForm.ShowDialog() == DialogResult.OK)
-            {
-                File.WriteAllText("config.json",
-                    JsonSerializer.Serialize(configCopy, new JsonSerializerOptions { WriteIndented = true }));
-
-
-                _fixedCosts.TransportKlaipeda = configCopy.TransportKlaipeda;
-                _fixedCosts.TransportTernopil = configCopy.TransportTernopil;
-                _fixedCosts.Broker = configCopy.Broker;
-                _fixedCosts.Commission = configCopy.Commission;
-                _fixedCosts.AdditionalCosts = configCopy.AdditionalCosts;
-                _fixedCosts.RepairCost = configCopy.RepairCost;
-
-                _calculator = new CalculatorService(_auctionFeeTable, _fixedCosts, _portService);
+                // Сума загальна
+                decimal totalPrice = auctionResult.FinalPrice + deliveryResult.finalCostAuctionPayment + customsResult.finalCustomsCost;
+                labelTotalPrices.Text = totalPrice.ToString("C", CultureInfo.CurrentCulture);
 
             }
-        }
-
-
-        private void buttonSaveResultInTxt_Click(object sender, EventArgs e)
-        {
-            //var result = $@"
-            //Ціна на аукціоні: {textCostAuto.Text} {_currentCurrency}
-            //Комісія аукціону: {labelAuctionFee.Text}
-            //Транспортування США: {labelTransportingAcrossUSA.Text}
-            //Транспортування Клайпеда: {labelTransportingAcrossKlaiped.Text}
-            //Транспортування Тернопіль: {labelTransportingAcrossTernopil.Text}
-            //Мито: {labelToll.Text}
-            //Акциз: {labelExcise.Text}
-            //ПДВ: {labelVAT.Text}
-            //Брокер: {labelBroker.Text}
-            //Додаткові витрати: {labelAdditionalCosts.Text}
-            //Очистка: {labelFinalClearance.Text}
-            //Ремонт: {(checkBoxIsRepair.Checked ? _fixedCosts.RepairCost : "Ні")}
-            //Загальна вартість: {labelFinalCost.Text}
-            //Дата: {DateTime.Now}";
-
-            using SaveFileDialog sfd = new() { Filter = "Text files (*.txt)|*.txt", FileName = "CarPriceCalculation.txt" };
-            if (sfd.ShowDialog() == DialogResult.OK)
+            catch (Exception ex)
             {
-                //File.WriteAllText(sfd.FileName, result);
-                MessageBox.Show("Результат збережено!");
+                MessageBox.Show($"Error during calculation: {ex.Message}");
             }
         }
     }

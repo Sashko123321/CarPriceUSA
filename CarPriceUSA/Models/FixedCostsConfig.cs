@@ -2,11 +2,17 @@
 {
     public class FixedCostsConfig
     {
-        public decimal TransportKlaipeda { get; set; }
-        public decimal TransportTernopil { get; set; }
-        public decimal Broker { get; set; }
-        public decimal Commission { get; set; }
-        public decimal AdditionalCosts { get; set; }
-        public decimal RepairCost { get; set; }
+        public decimal TariffCopart { get; set; }
+        public decimal TariffAutoBidMaster { get; set; }
+        public decimal DocumentCost { get; set; }
+        public decimal MoneyTransfer { get; set; }
+        public decimal UnlimitSavedCarCost { get; set; }
+        public decimal DeliveryToCity { get; set; }
+        public decimal PaymentToSeason { get; set; }
+        public decimal TariffBroker { get; set; }
+        public decimal UnloadingKlaipeda { get; set; }
+
+
     }
+
 }

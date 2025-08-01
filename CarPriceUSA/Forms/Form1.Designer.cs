@@ -223,7 +223,7 @@
             buttonSaveResultInTxt.TabIndex = 10;
             buttonSaveResultInTxt.Text = "Зберегти Розрахунок";
             buttonSaveResultInTxt.UseVisualStyleBackColor = true;
-            buttonSaveResultInTxt.Click += buttonSaveResultInTxt_Click;
+            //buttonSaveResultInTxt.Click += buttonSaveResultInTxt_Click;
             // 
             // buttonSettings
             // 
@@ -234,7 +234,7 @@
             buttonSettings.TabIndex = 10;
             buttonSettings.Text = "⚙";
             buttonSettings.UseVisualStyleBackColor = true;
-            buttonSettings.Click += buttonSettings_Click;
+            //buttonSettings.Click += buttonSettings_Click;
             // 
             // radioButtonGas
             // 
