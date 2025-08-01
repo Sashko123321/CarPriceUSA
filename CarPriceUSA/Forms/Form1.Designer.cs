@@ -213,7 +213,7 @@
             buttonRun.TabIndex = 7;
             buttonRun.Text = "Рахувати";
             buttonRun.UseVisualStyleBackColor = false;
-            buttonRun.Click += buttonRun_Click;
+            buttonRun.Click += ButtonRun_Click;
             // 
             // buttonSaveResultInTxt
             // 

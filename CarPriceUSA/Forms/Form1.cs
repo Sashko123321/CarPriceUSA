@@ -20,7 +20,6 @@ namespace CarPriceUSA
             InitializeServices();
 
             buttonRun.Click += ButtonRun_Click;
-
         }
 
         private void LoadConfig()
@@ -33,7 +32,7 @@ namespace CarPriceUSA
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading config: {ex.Message}");
-                _config = new FixedCostsConfig(); // default values if needed
+                _config = new FixedCostsConfig(); // default fallback
             }
         }
 
@@ -47,7 +46,6 @@ namespace CarPriceUSA
         {
             try
             {
-                // Парсимо вхідні дані
                 if (!decimal.TryParse(textCostAuto.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal price))
                 {
                     MessageBox.Show("Invalid price");
@@ -69,37 +67,33 @@ namespace CarPriceUSA
                 bool isDiesel = radioButtonDiesel.Checked;
                 string city = textBoxCity.Text.Trim();
 
-                // Розрахунок аукціону (припустимо fullRefund=false, fullRefundDamages=false, бо не вказано UI для них)
-                // Якщо потрібні чекбокси - додай аналогічно.
                 var auctionService = new AuctionPaymentService(_config);
                 var auctionResult = auctionService.CalculateFinalCost(price, false);
 
-                // Розрахунок доставки
                 var deliveryResult = await _deliveryService.Delivery(auctionResult.FinalPrice, fullRefund: false, fullRefundDamages: false, city);
 
-                // Розрахунок митних платежів
                 var customsResult = _customService.Customs(deliveryResult.finalCostAuctionPayment, year, volume, isDiesel);
 
-                // Відображення результатів у Label
-
+                // Відображення результатів
                 labelFinalBid.Text = auctionResult.BidPrice.ToString("C", CultureInfo.CurrentCulture);
                 labelAuctionСommission.Text = auctionResult.TariffCopart.ToString("C", CultureInfo.CurrentCulture);
                 labelAuctionFee.Text = auctionResult.TariffAutoBidMaster.ToString("C", CultureInfo.CurrentCulture);
                 labelPaymentForDocuments.Text = auctionResult.DocumentCost.ToString("C", CultureInfo.CurrentCulture);
+                //labelPaymentForDocumentsSeason.Text = deliveryResult.paymentToSeason.ToString("C", CultureInfo.CurrentCulture);
+
                 labelDelivery.Text = deliveryResult.finalCostAuctionPayment.ToString("C", CultureInfo.CurrentCulture);
                 labelDeliveryPort.Text = deliveryResult.deliveryToPortCost.ToString("C", CultureInfo.CurrentCulture);
                 labelCityDelivery.Text = deliveryResult.deliveryToCity.ToString("C", CultureInfo.CurrentCulture);
-                labelPaymentForDocuments.Text = deliveryResult.paymentToSeason.ToString("C", CultureInfo.CurrentCulture);
-                labelUnloadingPort.Text = deliveryResult.fullRefundCost.ToString("C", CultureInfo.CurrentCulture);
+
+                //labelUnloadingPort.Text = deliveryResult.fullRefundCost.ToString("C", CultureInfo.CurrentCulture);
+                labelUnloadingPort.Text = customsResult.unloadingKlaipeda.ToString("C", CultureInfo.CurrentCulture);
+
                 labelBrokerFee.Text = customsResult.tariffBroker.ToString("C", CultureInfo.CurrentCulture);
                 labelCustoms.Text = customsResult.customsCost.ToString("C", CultureInfo.CurrentCulture);
-                labelUnloadingPort.Text = customsResult.unloadingKlaipeda.ToString("C", CultureInfo.CurrentCulture);
                 labelCustomsClearance.Text = customsResult.finalCustomsCost.ToString("C", CultureInfo.CurrentCulture);
 
-                // Сума загальна
                 decimal totalPrice = auctionResult.FinalPrice + deliveryResult.finalCostAuctionPayment + customsResult.finalCustomsCost;
                 labelTotalPrices.Text = totalPrice.ToString("C", CultureInfo.CurrentCulture);
-
             }
             catch (Exception ex)
             {
